@@ -50,7 +50,7 @@ begin
         ModuleServices := BorlandIDEServices as IOTAModuleServices;
         Module := ModuleServices.FindModule(FileName);
         if Assigned(Module) then
-          Plugin.InstallSourceEditorNotifiers(Module, False);
+          Plugin.InstallSourceEditorNotifiers(Module);
       end;
 
     ofnFileClosing:

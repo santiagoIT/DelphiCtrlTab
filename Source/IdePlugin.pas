@@ -23,7 +23,7 @@ type
     procedure DisableKeyBoardHook;
     procedure FileClosing(aUnitFile: string);
     function GetUnitManager: IUnitManager;
-    procedure InstallSourceEditorNotifiers(Module: IOTAModule; aUseEditViewCount: Boolean);
+    procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
     procedure RemoveIDENotifier;
     procedure ShutDown;
@@ -89,7 +89,7 @@ begin
   for i := 0 to ModuleServices.ModuleCount - 1 do
   begin
     OpenModule := ModuleServices.Modules[i];
-    InstallSourceEditorNotifiers(OpenModule, True);
+    InstallSourceEditorNotifiers(OpenModule);
   end;
 
   RegisterDesignNotification(FDesignNotification);
@@ -177,19 +177,16 @@ begin
   Result := FUnitManager;
 end;
 
-procedure TIdePlugin.InstallSourceEditorNotifiers(Module: IOTAModule; aUseEditViewCount: Boolean);
+procedure TIdePlugin.InstallSourceEditorNotifiers(Module: IOTAModule);
 var
   FileExt: string;
   FormEditor: IOTAFormEditor;
   i: Integer;
   ModuleEditor: IOTAEditor;
+  OtaServices: IOTAServices;
   SourceEditor: IOTASourceEditor;
 begin
-  // for now ignore dpk and dpr files
-  FileExt := TPath.GetExtension(Module.FileName).ToLower();
-  if (FileExt = '.dproj') or (FileExt = '.groupproj') then Exit;
-
-
+  OtaServices := BorlandIDEServices as IOTAServices;
   // attach a notifier
   for i := 0 to Module.ModuleFileCount - 1 do
   begin
@@ -199,7 +196,14 @@ begin
     begin
       // make sure that at least one edit view exists. This prevents all loaded .dpk and .dpr files
       // from appearing in the loaded modules list.
-      if aUseEditViewCount and (SourceEditor.EditViewCount < 1) then Continue;
+      if (SourceEditor.EditViewCount < 1) then
+      begin
+        // for now ignore dproj and groupproj file.
+        // the problem is that these modules are listed as opened modules when the IDE startsup.
+        // Have not found a way to distinguish between opened modules and opened modules that have a tab view.
+        FileExt := TPath.GetExtension(Module.FileName).ToLower();
+        if Supports(Module, IOTAProject) or OtaServices.IsProjectGroup(Module.FileName) then Exit;
+      end;
 
       // add notifier
       FEditorNotifiers.Add(TSourceEditorNotifier.Create(SourceEditor) as IInterface);
@@ -233,7 +237,7 @@ begin
         if GetKeyState(VK_CONTROL) < 0 then
         begin
           // make sure only one instance can be displayed
-          if not TFormOpenDocs.IsShowing then
+          if not TFormOpenDocs.IsShowing and (Plugin.UnitManager.ViewCount > 1) then
           begin
             // create form
             Application.CreateForm(TFormOpenDocs, Form);

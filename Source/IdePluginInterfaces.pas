@@ -27,7 +27,7 @@ type
     procedure DisableKeyBoardHook;
     procedure FileClosing(aFormFile: string);
     function GetUnitManager: IUnitManager;
-    procedure InstallSourceEditorNotifiers(Module: IOTAModule; aUseEditViewCount: Boolean);
+    procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
     procedure ShutDown;
     procedure SourceEditorNotifierDestroyed(aNotifier: IEditorNotifier);

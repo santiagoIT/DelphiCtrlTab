@@ -122,7 +122,6 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="designide.dcp"/>
         <DCCReference Include="..\Source\Main.pas"/>
-        <DCCReference Include="..\Source\KeyBoardBinding.pas"/>
         <DCCReference Include="..\Source\FrmOpenDocs.pas">
             <Form>FormOpenDocs</Form>
         </DCCReference>

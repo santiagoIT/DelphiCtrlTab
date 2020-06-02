@@ -23,7 +23,6 @@ requires
 
 contains
   Main in '..\Source\Main.pas',
-  KeyBoardBinding in '..\Source\KeyBoardBinding.pas',
   FrmOpenDocs in '..\Source\FrmOpenDocs.pas' {FormOpenDocs},
   UnitManager in '..\Source\UnitManager.pas',
   SourceEditorNotifier in '..\Source\SourceEditorNotifier.pas',
