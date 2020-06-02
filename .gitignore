@@ -68,3 +68,6 @@ __recovery/
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
 Delphi/*.res
+*.dproj
+*.groupproj
+*.dpk
