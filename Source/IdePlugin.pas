@@ -12,7 +12,7 @@ implementation
 uses
   System.Generics.Defaults, Classes, SysUtils, ToolsAPI, FormEditorNotifier,
   UnitManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
-  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils;
+  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger;
 
 type
   TIdePlugin = class(TSingletonImplementation, IIdePlugin)
@@ -22,6 +22,7 @@ type
     procedure DesignerClosed(aFormFile: string);
     procedure DisableKeyBoardHook;
     procedure FileClosing(aUnitFile: string);
+    function GetLogger: ILogger;
     function GetUnitManager: IUnitManager;
     procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
@@ -32,6 +33,7 @@ type
     FDesignNotification: IDesignNotification;
     FEditorNotifiers: IInterfaceList;
     FIDENotifierIndex: Integer;
+    FLogger: ILogger;
     FUnitManager: IUnitManager;
     class function KeyboardHookProc(Code: Integer; WordParam: Word; LongParam: LongInt): LongInt; static; stdcall;
   public
@@ -39,6 +41,7 @@ type
     KBHook: HHook;
     constructor Create;
     destructor Destroy; override;
+    property Logger: ILogger read GetLogger;
   end;
 
 // the singleton instance
@@ -170,6 +173,13 @@ begin
       end;
     end;
   end;
+end;
+
+function TIdePlugin.GetLogger: ILogger;
+begin
+  if not Assigned(FLogger) then
+    FLogger := TFileLogger.Create;
+  Result := FLogger;
 end;
 
 function TIdePlugin.GetUnitManager: IUnitManager;

@@ -7,6 +7,7 @@ uses
 
 type
   IEditorNotifier = interface;
+  ILogger = interface;
 
   IUnitManager = interface
   ['{53A0592B-86F9-42AF-9ABF-00A1B47E3081}']
@@ -26,11 +27,13 @@ type
     procedure DesignerClosed(aFormFile: string);
     procedure DisableKeyBoardHook;
     procedure FileClosing(aFormFile: string);
+    function GetLogger: ILogger;
     function GetUnitManager: IUnitManager;
     procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
     procedure ShutDown;
     procedure SourceEditorNotifierDestroyed(aNotifier: IEditorNotifier);
+    property Logger: ILogger read GetLogger;
     property UnitManager: IUnitManager read GetUnitManager;
   end;
 
@@ -39,6 +42,12 @@ type
     procedure CleanUp;
     function GetFileName: string;
     property FileName: string read GetFileName;
+  end;
+
+  ILogger = interface
+  ['{B4510A5D-AD1F-4E08-A85B-D1CE1A115D50}']
+    procedure ClearLog;
+    procedure LogMesage(aMessage: string);
   end;
 
 implementation

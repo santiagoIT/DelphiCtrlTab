@@ -13,6 +13,7 @@
     <Item Include="..\Source\IdePlugin.pas"/>
     <Item Include="..\Source\IdePluginInterfaces.pas"/>
     <Item Include="..\Source\DesignNotification.pas"/>
+    <Item Include="..\Source\FileLogger.pas"/>
   </Contains>
   <BuildConfigurations>
     <BuildConfiguration Name="Base">     
