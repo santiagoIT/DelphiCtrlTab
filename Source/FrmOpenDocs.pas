@@ -97,9 +97,19 @@ begin
   end
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
-    Index := ListViewOpenFiles.ItemIndex + 1;
-    if Index >= ListViewOpenFiles.Items.Count then
-      Index := 0;
+    // if shift is pressed move the opposite direction
+    if GetKeyState(VK_SHIFT) < 0 then
+    begin
+      Index := ListViewOpenFiles.ItemIndex - 1;
+      if Index< 0 then
+        Index := ListViewOpenFiles.Items.Count - 1;
+    end
+    else
+    begin
+      Index := ListViewOpenFiles.ItemIndex + 1;
+      if Index >= ListViewOpenFiles.Items.Count then
+        Index := 0;
+    end;
     ListViewOpenFiles.ItemIndex := Index;
    // RefreshLabels;
   end
