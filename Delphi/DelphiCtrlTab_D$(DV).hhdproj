@@ -1,0 +1,51 @@
+﻿<Project guid="798F78B3-A8DF-4C8B-9D81-7E0544414330" ProjectType="Package">
+  <Requires>
+    <Entry>rtl.dcp</Entry>
+    <Entry>designide.dcp</Entry>
+  </Requires>
+  <Contains>
+    <Item Include="..\Source\Main.pas"/>
+    <Item Include="..\Source\FrmOpenDocs.pas"/>
+    <Item Include="..\Source\UnitManager.pas"/>
+    <Item Include="..\Source\SourceEditorNotifier.pas"/>
+    <Item Include="..\Source\FormEditorNotifier.pas"/>
+    <Item Include="..\Source\IdeNotifier.pas"/>
+    <Item Include="..\Source\IdePlugin.pas"/>
+    <Item Include="..\Source\IdePluginInterfaces.pas"/>
+    <Item Include="..\Source\DesignNotification.pas"/>
+  </Contains>
+  <BuildConfigurations>
+    <BuildConfiguration Name="Base">     
+      <RuntimeOnlyPackage>false</RuntimeOnlyPackage>    
+      <DCC_BplOutput>..\build\bin\$(Config)\</DCC_BplOutput>
+      <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+      <GenDll>true</GenDll>
+      <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
+      <GenPackage>true</GenPackage>
+      <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+      <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+      <DCC_E>false</DCC_E>
+      <DCC_N>false</DCC_N>
+      <DCC_S>false</DCC_S>
+      <DCC_F>false</DCC_F>
+      <DCC_K>false</DCC_K>
+    </BuildConfiguration>
+    
+    <BuildConfiguration Parent="Base" Platform="Win32">           
+      <DCC_UsePackage>rtl;$(DCC_UsePackage)</DCC_UsePackage>
+      <VerInfo_Locale>1033</VerInfo_Locale>
+      <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+      <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+      <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+    </BuildConfiguration>
+
+    <!-- 
+      64 bit debugger needs to have linker debug info turned ON. Otherwise no breakpoints are hit.
+      http://stackoverflow.com/questions/30171572/unable-to-debug-64-bit-application-in-release-configuration-with-debug-informat
+    -->
+    <BuildConfiguration Parent="Base" Platform="Win64">
+      <DCC_UsePackage>rtl;$(DCC_UsePackage)</DCC_UsePackage>
+    </BuildConfiguration>
+    
+  </BuildConfigurations>
+</Project>
