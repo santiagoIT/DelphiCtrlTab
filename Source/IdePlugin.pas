@@ -1,3 +1,12 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : IdePlugin
+
+ Info    : This Unit contains the class None.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit IdePlugin;
 
 interface
@@ -11,7 +20,7 @@ implementation
 
 uses
   System.Generics.Defaults, Classes, SysUtils, ToolsAPI, FormEditorNotifier,
-  UnitManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
+  ViewManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
   DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger;
 
 type
@@ -21,26 +30,25 @@ type
     procedure ClearSourceEditorNotifiers;
     procedure DesignerClosed(aFormFile: string);
     procedure DisableKeyBoardHook;
+    procedure EditorNotifierAboutToBeDestroyed(aNotifier: IEditorNotifier);
     procedure FileClosing(aUnitFile: string);
     function GetLogger: ILogger;
-    function GetUnitManager: IUnitManager;
+    function GetViewManager: IViewManager;
     procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
     procedure RemoveIDENotifier;
     procedure ShutDown;
-    procedure SourceEditorNotifierDestroyed(aNotifier: IEditorNotifier);
   private
     FDesignNotification: IDesignNotification;
     FEditorNotifiers: IInterfaceList;
     FIDENotifierIndex: Integer;
     FLogger: ILogger;
-    FUnitManager: IUnitManager;
+    FViewManager: IViewManager;
     class function KeyboardHookProc(Code: Integer; WordParam: Word; LongParam: LongInt): LongInt; static; stdcall;
   public
   class var
     KBHook: HHook;
     constructor Create;
-    destructor Destroy; override;
     property Logger: ILogger read GetLogger;
   end;
 
@@ -49,21 +57,30 @@ var
   PluginSingleton : TIdePlugin;
 
 
+{-------------------------------------------------------------------------------
+ Name   : Create
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 constructor TIdePlugin.Create;
 begin
   inherited;
   FEditorNotifiers := TInterfaceList.Create;
-  FUnitManager := TUnitManager.Create;
+  FViewManager := TViewManager.Create;
   FDesignNotification := TDesignNotification.Create;
   FIDENotifierIndex := -1;
   KBHook := 0;
 end;
 
-destructor TIdePlugin.Destroy;
-begin
-  inherited;
-end;
-
+{-------------------------------------------------------------------------------
+ Name   : ActivateKeyboardHook
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.ActivateKeyboardHook;
 begin
   // test if already active
@@ -76,6 +93,13 @@ begin
                            GetCurrentThreadId()) ;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : BootUp
+ Info   : Initializes the plugin.
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.BootUp;
 var
   Services: IOTAServices;
@@ -83,6 +107,12 @@ var
   i: Integer;
   OpenModule: IOTAModule;
 begin
+  {$IFDEF DEBUG}
+  // clear logs
+  // Logger.ClearLog;
+  // Logger.OpenLogLocation;
+  {$ENDIF}
+
   // install IDE notifier so that we can install editor notifiers for any newly opened module
   Services := BorlandIDEServices as IOTAServices;
   FIDENotifierIndex := Services.AddNotifier(TIDENotifier.Create);
@@ -100,6 +130,13 @@ begin
   ActivateKeyboardHook;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : ClearSourceEditorNotifiers
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.ClearSourceEditorNotifiers;
 var
   I: Integer;
@@ -111,21 +148,27 @@ begin
     begin
       // Destroyed calls RemoveNotifier which in turn releases the instance
       if Supports(FEditorNotifiers[i], IEditorNotifier, Notifier) then
-      begin
         Notifier.CleanUp;
-      end;
     end;
     FEditorNotifiers.Clear;
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : DesignerClosed
+ Info   :
+ Input  : aFormFile =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.DesignerClosed(aFormFile: string);
 var
   EditorNotifier: IEditorNotifier;
   FormNotifier: IOTAFormNotifier;
   i: Integer;
 begin
-  FUnitManager.ViewClosed(aFormFile);
+  FViewManager.ViewClosed(aFormFile);
 
   for i := 0 to FEditorNotifiers.Count -1 do
   begin
@@ -142,6 +185,13 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : DisableKeyBoardHook
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.DisableKeyBoardHook;
 begin
   {unhook the keyboard interception}
@@ -152,13 +202,30 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : EditorNotifierAboutToBeDestroyed
+ Info   :
+ Input  : aNotifier =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
+procedure TIdePlugin.EditorNotifierAboutToBeDestroyed(aNotifier: IEditorNotifier);
+var
+  Index: Integer;
+begin
+  Index := FEditorNotifiers.IndexOf(aNotifier as IInterface);
+  if Index >= 0 then
+    FEditorNotifiers.Delete(Index);
+end;
+
 procedure TIdePlugin.FileClosing(aUnitFile: string);
 var
   EditorNotifier: IEditorNotifier;
   FormNotifier: IOTAEditorNotifier;
   i: Integer;
 begin
-  FUnitManager.ViewClosed(aUnitFile);
+  FViewManager.ViewClosed(aUnitFile);
 
   for i := 0 to FEditorNotifiers.Count -1 do
   begin
@@ -166,7 +233,6 @@ begin
     begin
       if Supports(FEditorNotifiers[i], IEditorNotifier, EditorNotifier) and (EditorNotifier.FileName = aUnitFile) then
       begin
-
         FEditorNotifiers.Delete(i);
         EditorNotifier.CleanUp;
         break;
@@ -175,6 +241,13 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : GetLogger
+ Info   :
+ Input  :
+ Output :
+ Result : ILogger
+-------------------------------------------------------------------------------}
 function TIdePlugin.GetLogger: ILogger;
 begin
   if not Assigned(FLogger) then
@@ -182,14 +255,28 @@ begin
   Result := FLogger;
 end;
 
-function TIdePlugin.GetUnitManager: IUnitManager;
+{-------------------------------------------------------------------------------
+ Name   : GetViewManager
+ Info   :
+ Input  :
+ Output :
+ Result : IViewManager
+-------------------------------------------------------------------------------}
+function TIdePlugin.GetViewManager: IViewManager;
 begin
-  Result := FUnitManager;
+  Result := FViewManager;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : InstallSourceEditorNotifiers
+ Info   :
+ Input  : Module =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.InstallSourceEditorNotifiers(Module: IOTAModule);
 var
-  FileExt: string;
   FormEditor: IOTAFormEditor;
   i: Integer;
   ModuleEditor: IOTAEditor;
@@ -204,73 +291,89 @@ begin
 
     if Supports(ModuleEditor, IOTASourceEditor, SourceEditor) then
     begin
-      // make sure that at least one edit view exists. This prevents all loaded .dpk and .dpr files
-      // from appearing in the loaded modules list.
-      if (SourceEditor.EditViewCount < 1) then
-      begin
-        // for now ignore dproj and groupproj file.
-        // the problem is that these modules are listed as opened modules when the IDE startsup.
-        // Have not found a way to distinguish between opened modules and opened modules that have a tab view.
-        FileExt := TPath.GetExtension(Module.FileName).ToLower();
-        if Supports(Module, IOTAProject) or OtaServices.IsProjectGroup(Module.FileName) then Exit;
-      end;
-
       // add notifier
+      // view manager will be notified only once a view is inserted.
+      // otherwise we would end up with several entries for open modules
+      // that do not have a file tab associated with them (dpk, dpr files).
       FEditorNotifiers.Add(TSourceEditorNotifier.Create(SourceEditor) as IInterface);
     end
     else if Supports(ModuleEditor, IOTAFormEditor, FormEditor) then
     begin
       // add notifier
       FEditorNotifiers.Add(TFormEditorNotifier.Create(FormEditor) as IInterface);
+      // register open file
+      Plugin.ViewManager.ViewActivated(ModuleEditor.FileName);
     end;
-
-    // register open file
-    Plugin.UnitManager.ViewActivated(ModuleEditor.FileName);
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : KeyboardHookProc
+ Info   : Keyboard hook callback. This method is called whenever a key is pressed in the IDE.
+ Input  : Code =
+          WordParam =
+          LongParam =
+
+ Output :
+ Result : LongInt
+-------------------------------------------------------------------------------}
 class function TIdePlugin.KeyboardHookProc(Code: Integer; WordParam: Word; LongParam: LongInt): LongInt;
 var
   Form: TFormOpenDocs;
 begin
-  // If code is less than zero, the hook procedure must pass the message to the CallNextHookEx function without
-  // further processing and should return the value returned by CallNextHookEx.
-  if Code < 0 then
+  // Code = HC_ACTION -> The wParam and lParam parameters contain information about a keystroke message.
+  if (Code = HC_ACTION) then
   begin
-    Result := CallNextHookEx(TIdePlugin.KBHook, Code, WordParam, LongParam);
-    Exit;
-  end;
-
-  case WordParam of
-    VK_TAB:
-      begin
-        if GetKeyState(VK_CONTROL) < 0 then
+    case WordParam of
+      VK_TAB:
         begin
-          // make sure only one instance can be displayed
-          if not TFormOpenDocs.IsShowing and (Plugin.UnitManager.ViewCount > 1) then
+          if GetKeyState(VK_CONTROL) < 0 then
           begin
-            // create form
-            Application.CreateForm(TFormOpenDocs, Form);
-            Form.Show;
-            Result := 1;
+            // make sure only one instance can be displayed
+            if not TFormOpenDocs.IsShowing and (Plugin.ViewManager.ViewCount > 1) then
+            begin
+              // create form
+              Application.CreateForm(TFormOpenDocs, Form);
+              Form.Show;
 
-            // disable keyboard hook
-            Plugin.DisableKeyBoardHook;
-            Exit;
+              // If the hook procedure processed the message, it may return a nonzero value to prevent the system from
+              // passing the message to the rest of the hook chain or the target window procedure.
+              Result := 1;
+
+              // disable keyboard hook
+              Plugin.DisableKeyBoardHook;
+              Exit;
+            end;
           end;
         end;
-      end;
+    end;
   end;
 
-  Result := 0;//CallNextHookEx(KBHook, Code, WordParam, LongParam);;
+  // be a good citizen, if procedure did not process the message, it is highly recommended
+  // that you call CallNextHookEx and return the value it returns
+  Result := CallNextHookEx(KBHook, Code, WordParam, LongParam);;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : PrintMessage
+ Info   :
+ Input  : aMsg =
 
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.PrintMessage(const aMsg: string);
 begin
   (BorlandIDEServices as IOTAMessageServices).AddTitleMessage(aMsg);
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : RemoveIDENotifier
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.RemoveIDENotifier;
 var
   Services: IOTAServices;
@@ -280,11 +383,18 @@ begin
     Services.RemoveNotifier(FIDENotifierIndex);
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : ShutDown
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.ShutDown;
 begin
   DisableKeyBoardHook;
 
-  FUnitManager.ShutDown;
+  FViewManager.ShutDown;
   ClearSourceEditorNotifiers;
   RemoveIDENotifier;
 
@@ -293,15 +403,13 @@ begin
   FreeAndNil(PluginSingleton);
 end;
 
-procedure TIdePlugin.SourceEditorNotifierDestroyed(aNotifier: IEditorNotifier);
-var
-  Index: Integer;
-begin
-  Index := FEditorNotifiers.IndexOf(aNotifier as IInterface);
-  if Index >= 0 then
-    FEditorNotifiers.Delete(Index);
-end;
-
+{-------------------------------------------------------------------------------
+ Name   : Plugin
+ Info   :
+ Input  :
+ Output :
+ Result : IIdePlugin
+-------------------------------------------------------------------------------}
 function Plugin: IIdePlugin;
 begin
   Result := PluginSingleton;

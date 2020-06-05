@@ -15,7 +15,6 @@ object FormOpenDocs: TFormOpenDocs
   KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnClick = FormClick
   OnClose = FormClose
   OnCreate = FormCreate
   OnDeactivate = FormDeactivate
@@ -23,17 +22,22 @@ object FormOpenDocs: TFormOpenDocs
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBoxOpenUnits: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 688
-    Height = 371
+    AlignWithMargins = True
+    Left = 5
+    Top = 3
+    Width = 678
+    Height = 363
+    Margins.Left = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alClient
     Caption = 'Open Files'
     TabOrder = 0
     object Label_SelectedFile: TLabel
-      Left = 2
-      Top = 15
-      Width = 684
+      AlignWithMargins = True
+      Left = 5
+      Top = 18
+      Width = 668
       Height = 19
       Align = alTop
       Caption = 'Label_SelectedFile'
@@ -47,8 +51,8 @@ object FormOpenDocs: TFormOpenDocs
     end
     object Label_FullPath: TLabel
       Left = 2
-      Top = 356
-      Width = 684
+      Top = 348
+      Width = 674
       Height = 13
       Align = alBottom
       Caption = 'Label_FullPath'
@@ -57,9 +61,9 @@ object FormOpenDocs: TFormOpenDocs
     object ListViewOpenFiles: TListView
       AlignWithMargins = True
       Left = 5
-      Top = 37
-      Width = 678
-      Height = 316
+      Top = 43
+      Width = 668
+      Height = 302
       Align = alClient
       Columns = <
         item

@@ -1,3 +1,12 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : IdePluginInterfaces
+
+ Info    : This Unit contains the class None.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit IdePluginInterfaces;
 
 interface
@@ -9,7 +18,7 @@ type
   IEditorNotifier = interface;
   ILogger = interface;
 
-  IUnitManager = interface
+  IViewManager = interface
   ['{53A0592B-86F9-42AF-9ABF-00A1B47E3081}']
     function GetViewAt(aIndex: Integer): string;
     function GetViewCount: Integer;
@@ -28,13 +37,13 @@ type
     procedure DisableKeyBoardHook;
     procedure FileClosing(aFormFile: string);
     function GetLogger: ILogger;
-    function GetUnitManager: IUnitManager;
+    function GetViewManager: IViewManager;
     procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
     procedure ShutDown;
-    procedure SourceEditorNotifierDestroyed(aNotifier: IEditorNotifier);
+    procedure EditorNotifierAboutToBeDestroyed(aNotifier: IEditorNotifier);
     property Logger: ILogger read GetLogger;
-    property UnitManager: IUnitManager read GetUnitManager;
+    property ViewManager: IViewManager read GetViewManager;
   end;
 
   IEditorNotifier = interface
@@ -47,7 +56,8 @@ type
   ILogger = interface
   ['{B4510A5D-AD1F-4E08-A85B-D1CE1A115D50}']
     procedure ClearLog;
-    procedure LogMesage(aMessage: string);
+    procedure LogMessage(aMessage: string);
+    procedure OpenLogLocation;
   end;
 
 implementation

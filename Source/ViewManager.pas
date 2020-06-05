@@ -1,4 +1,13 @@
-unit UnitManager;
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : ViewManager
+
+ Info    : This Unit contains the class TViewManager.
+
+ Copyright (c) 2020 - Santiago Burbano
+===============================================================================}
+unit ViewManager;
 
 interface
 
@@ -6,7 +15,7 @@ uses
   IdePluginInterfaces, System.Classes, ToolsApi;
 
 type
-  TUnitManager = class(TInterfacedObject, IUnitManager)
+  TViewManager = class(TInterfacedObject, IViewManager)
     function GetViewAt(aIndex: Integer): string;
     function GetViewCount: Integer;
     procedure ShutDown;
@@ -25,29 +34,29 @@ implementation
 uses
   System.SysUtils;
 
-constructor TUnitManager.Create;
+constructor TViewManager.Create;
 begin
   inherited;
   FUnits := TStringList.Create;
 end;
 
-destructor TUnitManager.Destroy;
+destructor TViewManager.Destroy;
 begin
   inherited;
   FreeAndNil(FUnits);
 end;
 
-function TUnitManager.GetViewAt(aIndex: Integer): string;
+function TViewManager.GetViewAt(aIndex: Integer): string;
 begin
   Result := FUnits[aIndex];
 end;
 
-function TUnitManager.GetViewCount: Integer;
+function TViewManager.GetViewCount: Integer;
 begin
   Result := FUnits.Count;
 end;
 
-procedure TUnitManager.ShowSourceView(aIndex: Integer);
+procedure TViewManager.ShowSourceView(aIndex: Integer);
 var
   FileToShow: string;
   i: Integer;
@@ -77,13 +86,13 @@ begin
   end;
 end;
 
-procedure TUnitManager.ShutDown;
+procedure TViewManager.ShutDown;
 begin
   FUnits.Clear;
 end;
 
 
-procedure TUnitManager.ViewActivated(const aFileName: string);
+procedure TViewManager.ViewActivated(const aFileName: string);
 var
   Index: Integer;
 begin
@@ -95,7 +104,7 @@ begin
   FUnits.Insert(0, aFileName);
 end;
 
-procedure TUnitManager.ViewClosed(const aViewName: string);
+procedure TViewManager.ViewClosed(const aViewName: string);
 var
   Index: Integer;
 begin

@@ -1,3 +1,12 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : FrmOpenDocs
+
+ Info    : This Unit contains the class TFormOpenDocs.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit FrmOpenDocs;
 
 interface
@@ -12,13 +21,11 @@ type
     Label_SelectedFile: TLabel;
     Label_FullPath: TLabel;
     ListViewOpenFiles: TListView;
-    procedure FormClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure ListViewOpenFilesChange(Sender: TObject; Item: TListItem; Change:
-        TItemChange);
+    procedure ListViewOpenFilesChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure ListViewOpenFilesDblClick(Sender: TObject);
   private
   class var
@@ -26,10 +33,8 @@ type
   var
     FClosing: Boolean;
     procedure RefreshLabels;
-    { Private declarations }
   public
     class property IsShowing: Boolean read FIsShowing;
-    { Public declarations }
   end;
 
 var
@@ -40,13 +45,17 @@ implementation
 {$R *.dfm}
 
 uses
-  IdePlugin, ToolsApi;
+  IdePlugin, ToolsApi, ViewManager;
 
-procedure TFormOpenDocs.FormClick(Sender: TObject);
-begin
-  Plugin.PrintMessage('TFormOpenDocs.FormClick');
-end;
+{-------------------------------------------------------------------------------
+ Name   : FormClose
+ Info   :
+ Input  : Sender =
+          Action =
 
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FClosing := True;
@@ -54,7 +63,7 @@ begin
   begin
     if ListViewOpenFiles.ItemIndex > 0 then
     begin
-      Plugin.UnitManager.ShowSourceView(ListViewOpenFiles.ItemIndex);
+      Plugin.ViewManager.ShowSourceView(ListViewOpenFiles.ItemIndex);
     end;
   end;
   Action := caFree;
@@ -64,14 +73,22 @@ begin
   Plugin.ActivateKeyboardHook;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : FormCreate
+ Info   :
+ Input  : Sender =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormCreate(Sender: TObject);
 var
   i: Integer;
 begin
   FIsShowing := True;
-  for i := 0 to Plugin.UnitManager.ViewCount -1 do
+  for i := 0 to Plugin.ViewManager.ViewCount -1 do
   begin
-    ListViewOpenFiles.AddItem(ExtractFileName(Plugin.UnitManager.GetViewAt(i)), nil);
+    ListViewOpenFiles.AddItem(ExtractFileName(Plugin.ViewManager.GetViewAt(i)), nil);
   end;
   if ListViewOpenFiles.Items.Count > 0 then
   begin
@@ -80,12 +97,30 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : FormDeactivate
+ Info   :
+ Input  : Sender =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormDeactivate(Sender: TObject);
 begin
   if not FClosing then
     Close;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : FormKeyUp
+ Info   :
+ Input  : Sender =
+          Key =
+          Shift =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Index: Integer;
@@ -122,25 +157,49 @@ begin
   end;
 end;
 
-procedure TFormOpenDocs.ListViewOpenFilesChange(Sender: TObject; Item:
-    TListItem; Change: TItemChange);
+{-------------------------------------------------------------------------------
+ Name   : ListViewOpenFilesChange
+ Info   :
+ Input  : Sender =
+          Item =
+          Change =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
+procedure TFormOpenDocs.ListViewOpenFilesChange(Sender: TObject; Item: TListItem; Change: TItemChange);
 begin
   RefreshLabels;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : ListViewOpenFilesDblClick
+ Info   :
+ Input  : Sender =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.ListViewOpenFilesDblClick(Sender: TObject);
 begin
   ModalResult := mrOk;
   Close;
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : RefreshLabels
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormOpenDocs.RefreshLabels;
 var
   FileName: string;
 begin
   if ListViewOpenFiles.ItemIndex >= 0 then
   begin
-    FileName := Plugin.UnitManager.GetViewAt(ListViewOpenFiles.ItemIndex);
+    FileName := Plugin.ViewManager.GetViewAt(ListViewOpenFiles.ItemIndex);
     Label_FullPath.Caption := FileName;
     Label_SelectedFile.Caption := ExtractFileName(FileName);
   end

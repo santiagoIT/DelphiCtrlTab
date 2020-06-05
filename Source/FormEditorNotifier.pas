@@ -1,32 +1,33 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : FormEditorNotifier
+
+ Info    : This Unit contains the class TFormEditorNotifier.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit FormEditorNotifier;
 
 interface
 
 uses
-  Classes, SysUtils, ToolsAPI, IdePluginInterfaces;
+  Classes, SysUtils, ToolsAPI, IdePluginInterfaces, EditorNotifierBase;
 
 type
-  TFormEditorNotifier = class(TNotifierObject, IOTANotifier, IOTAFormNotifier, IEditorNotifier)
+  TFormEditorNotifier = class(TEditorNotifierBase, IOTANotifier, IOTAFormNotifier, IEditorNotifier)
   private
-    [Weak]
-    FFormEditor: IOTAFormEditor;
-    FIndex: Integer;
-    procedure AfterSave;
     { Called when a component on this form was renamed }
     procedure ComponentRenamed(ComponentHandle: TOTAHandle; const OldName, NewName: string);
-    { IOTANotifier }
-    procedure Destroyed;
     { IOTAEditorNotifier }
     procedure FormActivated;
     { This is called immediately prior to the form being streamed out.  This
       may be called without first getting a BeforeSave as in the case of
       the project being compiled. }
     procedure FormSaving;
-    function GetFileName: string;
+  protected
   public
-    constructor Create(aFormEdiitor: IOTAFormEditor);
-    destructor Destroy; override;
-    procedure CleanUp;
+    constructor Create(aEditor: IOTAFormEditor);
   end;
 
 implementation
@@ -34,69 +35,55 @@ implementation
 uses
   IdePlugin;
 
-constructor TFormEditorNotifier.Create(aFormEdiitor: IOTAFormEditor);
+{-------------------------------------------------------------------------------
+ Name   : Create
+ Info   : Constructor. Register myself as a notifier for AEditor
+ Input  : aEditor = form editor
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
+constructor TFormEditorNotifier.Create(aEditor: IOTAFormEditor);
 begin
-  inherited Create;
-  FFormEditor := aFormEdiitor;
-  FIndex := FFormEditor.AddNotifier(Self);
+  inherited Create(aEditor);
+  FIndex := FEditor.AddNotifier(Self);
 end;
 
-//----------------------------------------------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
+ Name   : ComponentRenamed
+ Info   :
+ Input  : ComponentHandle =
+          OldName =
+          NewName =
 
-destructor TFormEditorNotifier.Destroy;
-
-begin
-  Plugin.SourceEditorNotifierDestroyed(Self);
-  CleanUp;
-  FFormEditor := nil;
-  inherited Destroy;
-end;
-
-procedure TFormEditorNotifier.AfterSave;
-begin
-end;
-
-// calls private destroyed method
-procedure TFormEditorNotifier.CleanUp;
-begin
-  if FIndex >= 0 then
-  begin
-    if Assigned(FFormEditor) then
-    begin
-      Plugin.PrintMessage(Format('TFormEditorNotifier.CleanUp: %d. %s', [FIndex, FFormEditor.FileName]));
-      FFormEditor.RemoveNotifier(FIndex);
-    end;
-    FIndex := -1;
-  end;
-end;
-
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormEditorNotifier.ComponentRenamed(ComponentHandle: TOTAHandle; const OldName, NewName: string);
 begin
-
 end;
 
-procedure TFormEditorNotifier.Destroyed;
-begin
- // Plugin.PrintMessage(Format('TFormEditorNotifier.Destroyed: %d. %s', [FIndex, FFormEditor.FileName]));
-
-  CleanUp;
-end;
-
+{-------------------------------------------------------------------------------
+ Name   : FormActivated
+ Info   : This method is called when a form is activated.
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormEditorNotifier.FormActivated;
 begin
- // Plugin.PrintMessage(Format('Form activated: %s', [FFormEditor.FileName]));
-  Plugin.UnitManager.ViewActivated(FFormEditor.FileName);
+  // notify view manager
+  Plugin.ViewManager.ViewActivated(FFileName);
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : FormSaving
+ Info   :
+ Input  :
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TFormEditorNotifier.FormSaving;
 begin
-
-end;
-
-function TFormEditorNotifier.GetFileName: string;
-begin
-  if not Assigned(FFormEditor) then Exit(string.Empty);
-  Result := FFormEditor.FileName;
 end;
 
 end.

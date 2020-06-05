@@ -1,3 +1,12 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : IdeNotifier
+
+ Info    : This Unit contains the class TIDENotifier.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit IdeNotifier;
 
 interface
@@ -17,28 +26,47 @@ type
 implementation
 
 uses
-  IdePlugin, SysUtils;
+  IdePlugin, SysUtils, System.Rtti;
 
-//----------------------------------------------------------------------------------------------------------------------
 
-{ TIDENotifier private: IOTAIDENotifier }
-
-//----------------------------------------------------------------------------------------------------------------------
-
+{-------------------------------------------------------------------------------
+ Name   : AfterCompile
+ Info   :
+ Input  : Succeeded =
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIDENotifier.AfterCompile(Succeeded: Boolean);
 begin
   // do nothing
 end;
 
-//----------------------------------------------------------------------------------------------------------------------
 
+{-------------------------------------------------------------------------------
+ Name   : BeforeCompile
+ Info   :
+ Input  : Project =
+          Cancel =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIDENotifier.BeforeCompile(const Project: IOTAProject; var Cancel: Boolean);
 begin
   // do nothing
 end;
 
-//----------------------------------------------------------------------------------------------------------------------
 
+{-------------------------------------------------------------------------------
+ Name   : FileNotification
+ Info   :
+ Input  : NotifyCode =
+          FileName =
+          Cancel =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIDENotifier.FileNotification(NotifyCode: TOTAFileNotification; const FileName: string; var Cancel: Boolean);
 var
   ModuleServices: IOTAModuleServices;
@@ -59,8 +87,6 @@ begin
     end;
   end;
 end;
-
-//----------------------------------------------------------------------------------------------------------------------
 
 end.
 

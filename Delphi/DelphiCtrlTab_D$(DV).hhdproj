@@ -6,7 +6,7 @@
   <Contains>
     <Item Include="..\Source\Main.pas"/>
     <Item Include="..\Source\FrmOpenDocs.pas"/>
-    <Item Include="..\Source\UnitManager.pas"/>
+    <Item Include="..\Source\ViewManager.pas"/>
     <Item Include="..\Source\SourceEditorNotifier.pas"/>
     <Item Include="..\Source\FormEditorNotifier.pas"/>
     <Item Include="..\Source\IdeNotifier.pas"/>
@@ -14,6 +14,7 @@
     <Item Include="..\Source\IdePluginInterfaces.pas"/>
     <Item Include="..\Source\DesignNotification.pas"/>
     <Item Include="..\Source\FileLogger.pas"/>
+    <Item Include="..\Source\EditorNotifierBase.pas"/>
   </Contains>
   <BuildConfigurations>
     <BuildConfiguration Name="Base">     
@@ -30,6 +31,7 @@
       <DCC_S>false</DCC_S>
       <DCC_F>false</DCC_F>
       <DCC_K>false</DCC_K>
+      <Debugger_HostApplication>c:\Program Files (x86)\Embarcadero\Studio\20.0\bin\</Debugger_HostApplication>
     </BuildConfiguration>
     
     <BuildConfiguration Parent="Base" Platform="Win32">           
