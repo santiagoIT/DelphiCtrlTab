@@ -1,27 +1,27 @@
+{===============================================================================
+ Project : DelphiCtrlTab_D27
+
+ Name    : SourceEditorNotifier
+
+ Info    : This Unit contains the class TSourceEditorNotifier.
+
+ Copyright (c) 2020 Santiago Burbano
+===============================================================================}
 unit SourceEditorNotifier;
 
 interface
 
 uses
-  Classes, SysUtils, ToolsAPI, IdePluginInterfaces;
+  Classes, SysUtils, ToolsAPI, IdePluginInterfaces, EditorNotifierBase;
 
 type
-  TSourceEditorNotifier = class(TNotifierObject, IOTANotifier, IOTAEditorNotifier, IEditorNotifier)
+  TSourceEditorNotifier = class(TEditorNotifierBase, IOTANotifier, IOTAEditorNotifier, IEditorNotifier)
   private
-    [Weak]
-    FEditor: IOTASourceEditor;
-    FIndex: Integer;
-    procedure AfterSave;
-    { IOTANotifier }
-    procedure Destroyed;
-    function GetFileName: string;
-    { IOTAEditorNotifier }
     procedure ViewActivated(const View: IOTAEditView);
     procedure ViewNotification(const View: IOTAEditView; Operation: TOperation);
+  protected
   public
-    constructor Create(AEditor: IOTASourceEditor); overload;
-    destructor Destroy; override;
-    procedure CleanUp;
+    constructor Create(AEditor: IOTAEditor); reintroduce;
   end;
 
 implementation
@@ -29,65 +29,52 @@ implementation
 uses
   IdePlugin;
 
-constructor TSourceEditorNotifier.Create(AEditor: IOTASourceEditor);
-
+{-------------------------------------------------------------------------------
+ Name   : Create
+ Info   : Constructor. Register myself as a notifier for AEditor
+ Input  : AEditor = source editor
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
+constructor TSourceEditorNotifier.Create(AEditor: IOTAEditor);
 begin
-  inherited Create;
-  FEditor := AEditor;
+  inherited;
   FIndex := FEditor.AddNotifier(Self);
- // Plugin.PrintMessage(Format('Added notifier for: %s', [FEditor.FileName]));
 end;
 
-//----------------------------------------------------------------------------------------------------------------------
 
-destructor TSourceEditorNotifier.Destroy;
-begin
-  Plugin.SourceEditorNotifierDestroyed(Self);
-  Cleanup;
-  FEditor := nil;
-  inherited Destroy;
-end;
-
-procedure TSourceEditorNotifier.AfterSave;
-begin
-end;
-
-// calls private destroyed method
-procedure TSourceEditorNotifier.CleanUp;
-begin
-//  Plugin.PrintMessage(Format('TSourceEditorNotifier.CleanUp: %d', [FIndex]));
-  if FIndex >= 0 then
-  begin
-    if Assigned(FEditor) then
-      FEditor.RemoveNotifier(FIndex);
-   // Plugin.PrintMessage(Format('Removed notifier for: %s', [FEditor.FileName]));
-    FIndex := -1;
-  end;
-end;
-
-procedure TSourceEditorNotifier.Destroyed;
-begin
- // Plugin.PrintMessage(Format('TSourceEditorNotifier.Destroyed: %s', [FEditor.FileName]));
-  CleanUp;
-end;
-
-function TSourceEditorNotifier.GetFileName: string;
-begin
-  if not Assigned(FEditor) then Exit(string.Empty);
-  Result := FEditor.FileName;
-end;
-
+{-------------------------------------------------------------------------------
+ Name   : ViewActivated
+ Info   : This is called when the associated view is activated in the editor.
+ Input  : View = view which was activated.
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TSourceEditorNotifier.ViewActivated(const View: IOTAEditView);
 begin
- // Plugin.PrintMessage(Format('View activated: %s', [FEditor.FileName]));
-  Plugin.UnitManager.ViewActivated(FEditor.FileName);
+  // notify view manager that a view was activated.
+  Plugin.ViewManager.ViewActivated(View.Buffer.FileName);
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : ViewNotification
+ Info   : Called when a new edit view is created(opInsert) or destroyed(opRemove)
+ Input  : View =
+          Operation = remove of insert
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TSourceEditorNotifier.ViewNotification(const View: IOTAEditView; Operation: TOperation);
 begin
   if Operation = opRemove then
   begin
+    // notify unit manager that a view has been closed.
     Plugin.FileClosing(View.Buffer.FileName);
+  end
+  else if Operation = opInsert then
+  begin
+    // register open file
+    Plugin.ViewManager.ViewActivated(View.Buffer.FileName);
   end;
 end;
 
