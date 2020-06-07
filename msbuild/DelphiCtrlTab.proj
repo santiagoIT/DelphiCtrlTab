@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Full">
+  <!-- Control and Live Sim VS compile -->
+  <Import Project=".\.targets\DelphiCtrlTab.Compile.targets"/>
+  
+  <Target Name="Prepare" >
+    <!-- Compiler-Konfiguration -->
+    <ItemGroup>
+      <CompilerProperties Include="OutputPath=$(OutDir)"/>
+      <CompilerProperties Include="OutDir=$(OutDir)"/>
+      <CompilerProperties Include="AutoBuild=true"/>
+      <CompilerProperties Include="DirBase=$(DirBase)"/>
+      <CompilerProperties Include="Platform=Win32"/>
+      <CompilerProperties Include="Config=Release"/>
+      <CompilerProperties Include="DCC_BuildAllUnits=true"/>
+    </ItemGroup>
+  </Target> 
+</Project>

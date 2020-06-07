@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="CompileD27" DependsOnTargets="Prepare">
+    <!-- Projekte -->
+    <ItemGroup>
+      <DelphiProjects Include="..\DelphiCtrlTab_D27.groupproj"/>
+    </ItemGroup>
+      
+    <!-- compile -->
+    <MSBuild Projects="@(DelphiProjects)" Properties="@(CompilerProperties)"/>    
+  </Target>
+  
+  <Target Name="CompileD26" DependsOnTargets="Prepare">
+    <!-- Projekte -->
+    <ItemGroup>
+      <DelphiProjects Include="..\DelphiCtrlTab_D26.groupproj"/>
+    </ItemGroup>
+      
+    <!-- compile -->
+    <MSBuild Projects="@(DelphiProjects)" Properties="@(CompilerProperties)"/>    
+  </Target>
+  
+  <Target Name="CompileD23" DependsOnTargets="Prepare">
+    <!-- Projekte -->
+    <ItemGroup>
+      <DelphiProjects Include="..\DelphiCtrlTab_D23.groupproj"/>
+    </ItemGroup>
+      
+    <!-- compile -->
+    <MSBuild Projects="@(DelphiProjects)" Properties="@(CompilerProperties)"/>    
+  </Target>
+</Project>
