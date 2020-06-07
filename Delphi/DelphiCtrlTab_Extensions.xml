@@ -1,0 +1,44 @@
+﻿<ProjectExtensions>
+  <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+  <Borland.ProjectType>$(ProjectType)</Borland.ProjectType>
+  <BorlandProject>
+    <Delphi.Personality>
+      <Source>
+        <Source Name="MainSource">$(MainSource)</Source>
+      </Source>
+      <VersionInfo>
+        <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+        <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+        <VersionInfo Name="MajorVer">1</VersionInfo>
+        <VersionInfo Name="MinorVer">0</VersionInfo>
+        <VersionInfo Name="Release">0</VersionInfo>
+        <VersionInfo Name="Build">0</VersionInfo>
+        <VersionInfo Name="Debug">False</VersionInfo>
+        <VersionInfo Name="PreRelease">False</VersionInfo>
+        <VersionInfo Name="Special">False</VersionInfo>
+        <VersionInfo Name="Private">False</VersionInfo>
+        <VersionInfo Name="DLL">False</VersionInfo>
+        <VersionInfo Name="Locale">1031</VersionInfo>
+        <VersionInfo Name="CodePage">1252</VersionInfo>
+      </VersionInfo>
+      <VersionInfoKeys>
+        <VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
+        <VersionInfoKeys Name="FileDescription">Ide Plugin</VersionInfoKeys>
+        <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+        <VersionInfoKeys Name="InternalName"/>
+        <VersionInfoKeys Name="LegalCopyright"/>
+        <VersionInfoKeys Name="LegalTrademarks"/>
+        <VersionInfoKeys Name="OriginalFilename"/>
+        <VersionInfoKeys Name="ProductName">DelphiCtrlTab</VersionInfoKeys>
+        <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+        <VersionInfoKeys Name="Comments"/>
+      </VersionInfoKeys>
+      <Excluded_Packages/>
+    </Delphi.Personality>
+    <Platforms>
+      <Platform value="Win32">True</Platform>
+      <Platform value="Win64">True</Platform>
+    </Platforms>$${UnitTesting)
+  </BorlandProject>
+  <ProjectFileVersion>12</ProjectFileVersion>
+</ProjectExtensions>

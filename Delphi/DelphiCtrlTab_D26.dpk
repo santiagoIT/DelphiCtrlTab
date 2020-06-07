@@ -24,12 +24,14 @@ requires
 contains
   Main in '..\Source\Main.pas',
   FrmOpenDocs in '..\Source\FrmOpenDocs.pas' {FormOpenDocs},
-  UnitManager in '..\Source\UnitManager.pas',
+  ViewManager in '..\Source\ViewManager.pas',
   SourceEditorNotifier in '..\Source\SourceEditorNotifier.pas',
   FormEditorNotifier in '..\Source\FormEditorNotifier.pas',
   IdeNotifier in '..\Source\IdeNotifier.pas',
   IdePlugin in '..\Source\IdePlugin.pas',
   IdePluginInterfaces in '..\Source\IdePluginInterfaces.pas',
-  DesignNotification in '..\Source\DesignNotification.pas';
+  DesignNotification in '..\Source\DesignNotification.pas',
+  FileLogger in '..\Source\FileLogger.pas',
+  EditorNotifierBase in '..\Source\EditorNotifierBase.pas';
 
 end.

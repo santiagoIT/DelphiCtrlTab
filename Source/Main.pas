@@ -3,7 +3,8 @@
 
  Name    : Main
 
- Info    : This Unit contains the class None.
+ Info    : This Unit contains the Register function. It is the entry point for
+           this plugin.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}

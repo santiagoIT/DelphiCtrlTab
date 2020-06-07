@@ -4,6 +4,9 @@
  Name    : IdeNotifier
 
  Info    : This Unit contains the class TIDENotifier.
+           This class receives notifications whenever a file is opened/closed.
+           When a file is opened we attach a editor notifier to it. The editor
+           notifier is removed once the file is closed.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}

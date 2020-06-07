@@ -3,7 +3,10 @@
 
  Name    : IdePlugin
 
- Info    : This Unit contains the class None.
+ Info    : This Unit contains the class TIdePlugin.
+           This class manages all relevant services for this plugin.
+           It is a singleton.
+           It is also responsible to hooking/unhooking the keyboard.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
@@ -356,7 +359,7 @@ end;
 
 {-------------------------------------------------------------------------------
  Name   : PrintMessage
- Info   :
+ Info   : Prints a message to the Messages View.
  Input  : aMsg =
 
  Output :

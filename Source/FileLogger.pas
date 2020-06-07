@@ -4,6 +4,9 @@
  Name    : FileLogger
 
  Info    : This Unit contains the class TFileLogger.
+           This class is used for debugging purposes only.
+           It writes output to:
+           <User>\Appdata\Roaming\ControlTab\log.txt
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
@@ -55,7 +58,7 @@ end;
 
 {-------------------------------------------------------------------------------
  Name   : ClearLog
- Info   :
+ Info   : Deletes the log file, if it exists
  Input  :
  Output :
  Result : None
@@ -68,7 +71,7 @@ end;
 
 {-------------------------------------------------------------------------------
  Name   : LogMessage
- Info   :
+ Info   : Appends a message to the log file
  Input  : aMessage =
 
  Output :
@@ -81,7 +84,7 @@ end;
 
 {-------------------------------------------------------------------------------
  Name   : OpenLogLocation
- Info   :
+ Info   : Spwans the windows explorer to open the log file directory
  Input  :
  Output :
  Result : None

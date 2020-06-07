@@ -1,4 +1,4 @@
-﻿<Project guid="798F78B3-A8DF-4C8B-9D81-7E0544414330" ProjectType="Package">
+﻿<Project guid="798F78B3-A8DF-4C8B-9D81-7E0544414330" ProjectType="Package" ProjectExtensionsFile="DelphiCtrlTab_Extensions.xml">
   <Requires>
     <Entry>rtl.dcp</Entry>
     <Entry>designide.dcp</Entry>
@@ -25,7 +25,7 @@
       <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
       <GenPackage>true</GenPackage>
       <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-      <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+      <DCC_BplOutput>..\binaries\$(Config)\</DCC_BplOutput>
       <DCC_E>false</DCC_E>
       <DCC_N>false</DCC_N>
       <DCC_S>false</DCC_S>

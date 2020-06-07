@@ -1,0 +1,37 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{b2d95930-33d5-11e9-95d4-8c85906055c0}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Projects Include="Delphi\DelphiCtrlTab_D23.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+  <Borland.Personality>Default.Personality.12</Borland.Personality>
+  <Borland.ProjectType />
+  <BorlandProject>
+    <Default.Personality />
+  </BorlandProject>
+</ProjectExtensions>
+  <!--DelphiCtrlTab_D23-->
+  <Target Name="DelphiCtrlTab_D23">
+    <MSBuild Projects="Delphi\DelphiCtrlTab_D23.dproj" />
+  </Target>
+  <Target Name="DelphiCtrlTab_D23:Clean">
+    <MSBuild Projects="Delphi\DelphiCtrlTab_D23.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="DelphiCtrlTab_D23:Make">
+    <MSBuild Projects="Delphi\DelphiCtrlTab_D23.dproj" Targets="Make" />
+  </Target>
+  <!--Group Project-->
+  <Target Name="Build">
+    <CallTarget Targets="DelphiCtrlTab_D23" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="DelphiCtrlTab_D23:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="DelphiCtrlTab_D23:Make" />
+  </Target>
+  <Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets" />
+  <Import Condition="'$(ToolsPath)' != ''" Project="$(ToolsPath)BuildProcess\Hundegger.Build.Delphi.Group.targets" />
+</Project>

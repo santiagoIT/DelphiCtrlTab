@@ -4,6 +4,7 @@
  Name    : DesignNotification
 
  Info    : This Unit contains the class TDesignNotification.
+           This class is notified of various designer events.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
@@ -34,7 +35,6 @@ uses
  Info   : This method is called when a form designer is closed.
  Input  : ADesigner =
           AGoingDormant =
-
  Output :
  Result : None
 -------------------------------------------------------------------------------}
@@ -44,8 +44,9 @@ var
   ImplFileName: string;
   IntfFileName: string;
 begin
-  // we
-  // this is a workaround, because IOTAFormNotifier are not notified when forms are closed...
+  // ideally we could have used IOTAFormNotifier to know when a designer is closed. But no notifications
+  // were triggered :-(
+  // So ended up using this is a workaround.
   ADesigner.ModuleFileNames(ImplFileName, IntfFileName, FormFileName);
   Plugin.DesignerClosed(FormFileName);
 end;

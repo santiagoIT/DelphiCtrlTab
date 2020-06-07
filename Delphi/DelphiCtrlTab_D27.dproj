@@ -1,13 +1,13 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{798f78b3-a8df-4c8b-9d81-7e0544414330}</ProjectGuid>
-        <MainSource>DelphiCtrlTab_D26.dpk</MainSource>
+        <MainSource>DelphiCtrlTab_D27.dpk</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <ProjectVersion>18.8</ProjectVersion>
+        <ProjectVersion>19</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <RelPath Condition="'$(RelPath)'==''">..\</RelPath>
     </PropertyGroup>
@@ -48,7 +48,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <RuntimeOnlyPackage>false</RuntimeOnlyPackage>
-        <SanitizedProjectName>DelphiCtrlTab_D26</SanitizedProjectName>
+        <SanitizedProjectName>DelphiCtrlTab_D27</SanitizedProjectName>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_MapFile>3</DCC_MapFile>
@@ -57,7 +57,7 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <DCC_Description>DelphiCtrlTab_D26</DCC_Description>
+        <DCC_Description>DelphiCtrlTab_D27</DCC_Description>
         <DCC_BplOutput>..\binaries\$(Config)\</DCC_BplOutput>
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
         <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
@@ -159,7 +159,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">DelphiCtrlTab_D26.dpk</Source>
+                    <Source Name="MainSource">DelphiCtrlTab_D27.dpk</Source>
                 </Source>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
