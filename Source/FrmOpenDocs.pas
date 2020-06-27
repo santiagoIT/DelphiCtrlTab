@@ -32,6 +32,8 @@ type
     FIsShowing: Boolean;
   var
     FClosing: Boolean;
+    // keep track of whether KeyUp was detected to the Tab-Key
+    FTabKeyUpCalled: Boolean;
     procedure RefreshLabels;
   public
     class property IsShowing: Boolean read FIsShowing;
@@ -57,14 +59,26 @@ uses
  Result : None
 -------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  FileToActivateIndex: Integer;
 begin
   FClosing := True;
   if ModalResult = mrOk then
   begin
-    if ListViewOpenFiles.ItemIndex > 0 then
+    // if Ctrl+Tab was pressed and released very quickly, then no KeyUp event for the Tab is registered
+    // in this case we will set the item index to 1.
+    if not FTabKeyUpCalled then
     begin
-      Plugin.ViewManager.ShowSourceView(ListViewOpenFiles.ItemIndex);
-    end;
+      if Plugin.ViewManager.ViewCount > 1 then
+        FileToActivateIndex := 1
+      else
+        FileToActivateIndex := 0;
+    end
+    else
+      FileToActivateIndex := ListViewOpenFiles.ItemIndex;
+
+    if FileToActivateIndex > 0 then
+      Plugin.ViewManager.ShowSourceView(FileToActivateIndex);
   end;
   Action := caFree;
   FIsShowing := False;
@@ -86,6 +100,8 @@ var
   i: Integer;
 begin
   FIsShowing := True;
+  FTabKeyUpCalled := False;
+
   for i := 0 to Plugin.ViewManager.ViewCount -1 do
   begin
     ListViewOpenFiles.AddItem(ExtractFileName(Plugin.ViewManager.GetViewAt(i)), nil);
@@ -132,6 +148,9 @@ begin
   end
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
+    FTabKeyUpCalled := True;
+
+
     // if shift is pressed move the opposite direction
     if GetKeyState(VK_SHIFT) < 0 then
     begin
