@@ -34,7 +34,7 @@ SET BDS=C:\Program Files (x86)\Embarcadero\Studio\%BDSVERSION%
 IF NOT EXIST "%BDS%" SET BDS=C:\Program Files (x86)\Embarcadero\Studio\%BDSVERSION%
 
 SET BDSCOMMONDIR=C:\Users\Public\Documents\Embarcadero\Studio\%BDSVERSION%
-"%MSB%\MSBuild.exe" DelphiCtrlTab.proj /t:CompileD27 /p:OutDir=%batPath%\build\bin\
+"%MSB%\MSBuild.exe" DelphiCtrlTab.proj /t:CompileD23 /p:OutDir=%batPath%\build\bin\
 
 
 IF "%4" NEQ "NOPAUSE" pause

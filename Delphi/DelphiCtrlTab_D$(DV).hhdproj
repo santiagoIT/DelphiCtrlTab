@@ -15,6 +15,8 @@
     <Item Include="..\Source\DesignNotification.pas"/>
     <Item Include="..\Source\FileLogger.pas"/>
     <Item Include="..\Source\EditorNotifierBase.pas"/>
+    <Item Include="..\Source\SettingsManager.pas"/>
+    <Item Include="..\Source\PluginSettings.pas"/>
   </Contains>
   <BuildConfigurations>
     <BuildConfiguration Name="Base">     

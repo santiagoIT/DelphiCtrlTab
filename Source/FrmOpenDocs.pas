@@ -85,6 +85,10 @@ begin
 
   // enable keyboard hook
   Plugin.ActivateKeyboardHook;
+
+  // store size
+  Plugin.Settings.DialogWidth := Self.Width;
+  Plugin.Settings.DialogHeight := Self.Height;
 end;
 
 {-------------------------------------------------------------------------------
@@ -102,6 +106,12 @@ begin
   FIsShowing := True;
   FTabKeyUpCalled := False;
 
+   // apply size
+  if Plugin.Settings.DialogWidth > 0 then
+    Width := Plugin.Settings.DialogWidth;
+  if Plugin.Settings.DialogHeight > 0 then
+    Height := Plugin.Settings.DialogHeight;
+
   for i := 0 to Plugin.ViewManager.ViewCount -1 do
   begin
     ListViewOpenFiles.AddItem(ExtractFileName(Plugin.ViewManager.GetViewAt(i)), nil);
@@ -109,7 +119,7 @@ begin
   if ListViewOpenFiles.Items.Count > 0 then
   begin
     ListViewOpenFiles.ItemIndex := 0;
-  //  RefreshLabels;
+    //  RefreshLabels;
   end;
 end;
 
@@ -123,8 +133,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormDeactivate(Sender: TObject);
 begin
-  if not FClosing then
-    Close;
+  if not FClosing then Close;
 end;
 
 {-------------------------------------------------------------------------------
@@ -149,7 +158,6 @@ begin
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
     FTabKeyUpCalled := True;
-
 
     // if shift is pressed move the opposite direction
     if GetKeyState(VK_SHIFT) < 0 then

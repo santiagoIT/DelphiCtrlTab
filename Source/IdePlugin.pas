@@ -24,7 +24,7 @@ implementation
 uses
   System.Generics.Defaults, Classes, SysUtils, ToolsAPI, FormEditorNotifier,
   ViewManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
-  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger;
+  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger, SettingsManager;
 
 type
   TIdePlugin = class(TSingletonImplementation, IIdePlugin)
@@ -36,6 +36,7 @@ type
     procedure EditorNotifierAboutToBeDestroyed(aNotifier: IEditorNotifier);
     procedure FileClosing(aUnitFile: string);
     function GetLogger: ILogger;
+    function GetSettings: ISettings;
     function GetViewManager: IViewManager;
     procedure InstallSourceEditorNotifiers(Module: IOTAModule);
     procedure PrintMessage(const aMsg: string);
@@ -47,6 +48,7 @@ type
     FIDENotifierIndex: Integer;
     FLogger: ILogger;
     FViewManager: IViewManager;
+    FSettingsManager: ISettingsManager;
     class function KeyboardHookProc(Code: Integer; WordParam: Word; LongParam: LongInt): LongInt; static; stdcall;
   public
   class var
@@ -58,7 +60,6 @@ type
 // the singleton instance
 var
   PluginSingleton : TIdePlugin;
-
 
 {-------------------------------------------------------------------------------
  Name   : Create
@@ -73,6 +74,7 @@ begin
   FEditorNotifiers := TInterfaceList.Create;
   FViewManager := TViewManager.Create;
   FDesignNotification := TDesignNotification.Create;
+  FSettingsManager := TSettingsManager.Create;
   FIDENotifierIndex := -1;
   KBHook := 0;
 end;
@@ -131,6 +133,8 @@ begin
   RegisterDesignNotification(FDesignNotification);
 
   ActivateKeyboardHook;
+
+  FSettingsManager.BootUp;
 end;
 
 {-------------------------------------------------------------------------------
@@ -222,6 +226,14 @@ begin
     FEditorNotifiers.Delete(Index);
 end;
 
+{-------------------------------------------------------------------------------
+ Name   : FileClosing
+ Info   :
+ Input  : aUnitFile =
+
+ Output :
+ Result : None
+-------------------------------------------------------------------------------}
 procedure TIdePlugin.FileClosing(aUnitFile: string);
 var
   EditorNotifier: IEditorNotifier;
@@ -256,6 +268,18 @@ begin
   if not Assigned(FLogger) then
     FLogger := TFileLogger.Create;
   Result := FLogger;
+end;
+
+{-------------------------------------------------------------------------------
+ Name   : GetSettings
+ Info   :
+ Input  :
+ Output :
+ Result : ISettings
+-------------------------------------------------------------------------------}
+function TIdePlugin.GetSettings: ISettings;
+begin
+  Result := FSettingsManager.Settings;
 end;
 
 {-------------------------------------------------------------------------------
@@ -397,6 +421,7 @@ procedure TIdePlugin.ShutDown;
 begin
   DisableKeyBoardHook;
 
+  FSettingsManager.ShutDown;
   FViewManager.ShutDown;
   ClearSourceEditorNotifiers;
   RemoveIDENotifier;

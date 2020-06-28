@@ -2,11 +2,13 @@ object FormOpenDocs: TFormOpenDocs
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsToolWindow
+  BorderStyle = bsSizeToolWin
   Caption = 'Go to...'
-  ClientHeight = 371
-  ClientWidth = 688
+  ClientHeight = 361
+  ClientWidth = 678
   Color = clBtnFace
+  Constraints.MinHeight = 250
+  Constraints.MinWidth = 300
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -25,8 +27,8 @@ object FormOpenDocs: TFormOpenDocs
     AlignWithMargins = True
     Left = 5
     Top = 3
-    Width = 678
-    Height = 363
+    Width = 668
+    Height = 353
     Margins.Left = 5
     Margins.Right = 5
     Margins.Bottom = 5
@@ -37,7 +39,7 @@ object FormOpenDocs: TFormOpenDocs
       AlignWithMargins = True
       Left = 5
       Top = 18
-      Width = 668
+      Width = 658
       Height = 19
       Align = alTop
       Caption = 'Label_SelectedFile'
@@ -51,8 +53,8 @@ object FormOpenDocs: TFormOpenDocs
     end
     object Label_FullPath: TLabel
       Left = 2
-      Top = 348
-      Width = 674
+      Top = 338
+      Width = 664
       Height = 13
       Align = alBottom
       Caption = 'Label_FullPath'
@@ -62,8 +64,8 @@ object FormOpenDocs: TFormOpenDocs
       AlignWithMargins = True
       Left = 5
       Top = 43
-      Width = 668
-      Height = 302
+      Width = 658
+      Height = 292
       Align = alClient
       Columns = <
         item
