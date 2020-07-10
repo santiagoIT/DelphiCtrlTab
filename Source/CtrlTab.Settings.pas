@@ -1,18 +1,18 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : PluginSettings
+ Name    : CtrlTab.Settings
 
  Info    : This Unit contains the class TViewManager.
 
  Copyright (c) 2020 - Santiago Burbano
 ===============================================================================}
-unit PluginSettings;
+unit CtrlTab.Settings;
 
 interface
 
 uses
-  IdePluginInterfaces, System.Classes;
+  CtrlTab.Interfaces, System.Classes;
 
 type
   TPluginSettings = class(TInterfacedObject, ISettings)

@@ -4,19 +4,19 @@
     <Entry>designide.dcp</Entry>
   </Requires>
   <Contains>
-    <Item Include="..\Source\Main.pas"/>
-    <Item Include="..\Source\FrmOpenDocs.pas"/>
-    <Item Include="..\Source\ViewManager.pas"/>
-    <Item Include="..\Source\SourceEditorNotifier.pas"/>
-    <Item Include="..\Source\FormEditorNotifier.pas"/>
-    <Item Include="..\Source\IdeNotifier.pas"/>
-    <Item Include="..\Source\IdePlugin.pas"/>
-    <Item Include="..\Source\IdePluginInterfaces.pas"/>
-    <Item Include="..\Source\DesignNotification.pas"/>
-    <Item Include="..\Source\FileLogger.pas"/>
-    <Item Include="..\Source\EditorNotifierBase.pas"/>
-    <Item Include="..\Source\SettingsManager.pas"/>
-    <Item Include="..\Source\PluginSettings.pas"/>
+    <Item Include="..\Source\CtrlTab.Main.pas"/>
+    <Item Include="..\Source\CtrlTab.FrmOpenDocs.pas"/>
+    <Item Include="..\Source\CtrlTab.ViewManager.pas"/>
+    <Item Include="..\Source\CtrlTab.SourceEditorNotifier.pas"/>
+    <Item Include="..\Source\CtrlTab.FormEditorNotifier.pas"/>
+    <Item Include="..\Source\CtrlTab.IdeNotifier.pas"/>
+    <Item Include="..\Source\CtrlTab.IdePlugin.pas"/>
+    <Item Include="..\Source\CtrlTab.Interfaces.pas"/>
+    <Item Include="..\Source\CtrlTab.DesignNotification.pas"/>
+    <Item Include="..\Source\CtrlTab.FileLogger.pas"/>
+    <Item Include="..\Source\CtrlTab.EditorNotifierBase.pas"/>
+    <Item Include="..\Source\CtrlTab.SettingsManager.pas"/>
+    <Item Include="..\Source\CtrlTab.Settings.pas"/>
     <Item Include="..\Source\CtrlTab.Consts.pas"/>
     <Item Include="..\Source\CtrlTab.EditorServicesNotifier.pas"/>
   </Contains>

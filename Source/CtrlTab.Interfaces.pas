@@ -1,13 +1,13 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : IdePluginInterfaces
+ Name    : CtrlTab.Interfaces
 
  Info    : This Unit contains the class None.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit IdePluginInterfaces;
+unit CtrlTab.Interfaces;
 
 interface
 

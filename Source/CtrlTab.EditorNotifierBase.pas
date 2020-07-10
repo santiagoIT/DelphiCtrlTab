@@ -1,7 +1,7 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : EditorNotifierBase
+ Name    : CtrlTab.EditorNotifierBase
 
  Info    : This Unit contains the class TEditorBase.
            This class contains the base functionallity for Source and Form
@@ -9,12 +9,12 @@
 
   Copyright (c) 2020 - Santiago Burbano
 ===============================================================================}
-unit EditorNotifierBase;
+unit CtrlTab.EditorNotifierBase;
 
 interface
 
 uses
-  ToolsAPI, IdePluginInterfaces;
+  ToolsAPI, CtrlTab.Interfaces;
 
 type
   TEditorNotifierBase = class(TNotifierObject, IOTANotifier, IEditorNotifier)
@@ -34,7 +34,7 @@ type
 implementation
 
 uses
-  IdePlugin, System.SysUtils;
+  CtrlTab.IdePlugin, System.SysUtils;
 
 {-------------------------------------------------------------------------------
  Name   : Create

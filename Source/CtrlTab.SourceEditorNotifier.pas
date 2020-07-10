@@ -1,18 +1,18 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : SourceEditorNotifier
+ Name    : CtrlTab.SourceEditorNotifier
 
  Info    : This Unit contains the class TSourceEditorNotifier.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit SourceEditorNotifier;
+unit CtrlTab.SourceEditorNotifier;
 
 interface
 
 uses
-  Classes, SysUtils, ToolsAPI, IdePluginInterfaces, EditorNotifierBase;
+  Classes, SysUtils, ToolsAPI, CtrlTab.Interfaces, CtrlTab.EditorNotifierBase;
 
 type
   TSourceEditorNotifier = class(TEditorNotifierBase, IOTANotifier, IOTAEditorNotifier, IEditorNotifier)
@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  IdePlugin;
+  CtrlTab.IdePlugin;
 
 {-------------------------------------------------------------------------------
  Name   : Create

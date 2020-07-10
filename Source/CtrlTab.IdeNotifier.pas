@@ -1,7 +1,7 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : IdeNotifier
+ Name    : CtrlTab.IdeNotifier
 
  Info    : This Unit contains the class TIDENotifier.
            This class receives notifications whenever a file is opened/closed.
@@ -10,7 +10,7 @@
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit IdeNotifier;
+unit CtrlTab.IdeNotifier;
 
 interface
 
@@ -29,7 +29,7 @@ type
 implementation
 
 uses
-  IdePlugin, SysUtils, System.Rtti;
+  CtrlTab.IdePlugin, SysUtils, System.Rtti;
 
 
 {-------------------------------------------------------------------------------

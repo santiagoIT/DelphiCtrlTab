@@ -1,18 +1,18 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : FormEditorNotifier
+ Name    : CtrlTab.FormEditorNotifier
 
  Info    : This Unit contains the class TFormEditorNotifier.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit FormEditorNotifier;
+unit CtrlTab.FormEditorNotifier;
 
 interface
 
 uses
-  Classes, SysUtils, ToolsAPI, IdePluginInterfaces, EditorNotifierBase;
+  Classes, SysUtils, ToolsAPI, CtrlTab.Interfaces, CtrlTab.EditorNotifierBase;
 
 type
   TFormEditorNotifier = class(TEditorNotifierBase, IOTANotifier, IOTAFormNotifier, IEditorNotifier)
@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  IdePlugin;
+  CtrlTab.IdePlugin;
 
 {-------------------------------------------------------------------------------
  Name   : Create

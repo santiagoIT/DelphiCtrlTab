@@ -120,21 +120,21 @@
 		</DelphiCompile>
 		<DCCReference Include="rtl.dcp" />
 		<DCCReference Include="designide.dcp" />
-		<DCCReference Include="..\Source\Main.pas" />
-		<DCCReference Include="..\Source\FrmOpenDocs.pas">
+		<DCCReference Include="..\Source\CtrlTab.Main.pas" />
+		<DCCReference Include="..\Source\CtrlTab.FrmOpenDocs.pas">
 			<Form>FormOpenDocs</Form>
 		</DCCReference>
-		<DCCReference Include="..\Source\ViewManager.pas" />
-		<DCCReference Include="..\Source\SourceEditorNotifier.pas" />
-		<DCCReference Include="..\Source\FormEditorNotifier.pas" />
-		<DCCReference Include="..\Source\IdeNotifier.pas" />
-		<DCCReference Include="..\Source\IdePlugin.pas" />
-		<DCCReference Include="..\Source\IdePluginInterfaces.pas" />
-		<DCCReference Include="..\Source\DesignNotification.pas" />
-		<DCCReference Include="..\Source\FileLogger.pas" />
-		<DCCReference Include="..\Source\EditorNotifierBase.pas" />
-		<DCCReference Include="..\Source\SettingsManager.pas" />
-		<DCCReference Include="..\Source\PluginSettings.pas" />
+		<DCCReference Include="..\Source\CtrlTab.ViewManager.pas" />
+		<DCCReference Include="..\Source\CtrlTab.SourceEditorNotifier.pas" />
+		<DCCReference Include="..\Source\CtrlTab.FormEditorNotifier.pas" />
+		<DCCReference Include="..\Source\CtrlTab.IdeNotifier.pas" />
+		<DCCReference Include="..\Source\CtrlTab.IdePlugin.pas" />
+		<DCCReference Include="..\Source\CtrlTab.Interfaces.pas" />
+		<DCCReference Include="..\Source\CtrlTab.DesignNotification.pas" />
+		<DCCReference Include="..\Source\CtrlTab.FileLogger.pas" />
+		<DCCReference Include="..\Source\CtrlTab.EditorNotifierBase.pas" />
+		<DCCReference Include="..\Source\CtrlTab.SettingsManager.pas" />
+		<DCCReference Include="..\Source\CtrlTab.Settings.pas" />
 		<DCCReference Include="..\Source\CtrlTab.Consts.pas" />
 		<DCCReference Include="..\Source\CtrlTab.EditorServicesNotifier.pas" />
 		<BuildConfiguration Include="Base">

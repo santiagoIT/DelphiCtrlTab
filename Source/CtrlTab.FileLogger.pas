@@ -1,7 +1,7 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : FileLogger
+ Name    : CtrlTab.FileLogger
 
  Info    : This Unit contains the class TFileLogger.
            This class is used for debugging purposes only.
@@ -10,12 +10,12 @@
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit FileLogger;
+unit CtrlTab.FileLogger;
 
 interface
 
 uses
-  IdePluginInterfaces;
+  CtrlTab.Interfaces;
 
 type
   TFileLogger = class(TInterfacedObject, ILogger)
@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  System.IOUtils, System.SysUtils, IdePlugin, ShellApi, Winapi.Windows;
+  System.IOUtils, System.SysUtils, CtrlTab.IdePlugin, ShellApi, Winapi.Windows;
 
 {-------------------------------------------------------------------------------
  Name   : Create

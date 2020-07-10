@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  IdePlugin, System.SysUtils, CtrlTab.Consts;
+  CtrlTab.IdePlugin, System.SysUtils, CtrlTab.Consts;
 
 procedure TCtrlTabEditorServicesNotifier.DockFormRefresh(Const EditWindow: INTAEditWindow; DockForm: TDockableForm);
 begin

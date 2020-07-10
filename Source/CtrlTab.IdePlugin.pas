@@ -1,7 +1,7 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : IdePlugin
+ Name    : CtrlTab.IdePlugin
 
  Info    : This Unit contains the class TIdePlugin.
            This class manages all relevant services for this plugin.
@@ -10,21 +10,21 @@
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit IdePlugin;
+unit CtrlTab.IdePlugin;
 
 interface
 
 uses
-  IdePluginInterfaces;
+  CtrlTab.Interfaces;
 
 function Plugin: IIdePlugin;
 
 implementation
 
 uses
-  System.Generics.Defaults, Classes, SysUtils, ToolsAPI, FormEditorNotifier,
-  ViewManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
-  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger, SettingsManager,
+  System.Generics.Defaults, Classes, SysUtils, ToolsAPI, CtrlTab.FormEditorNotifier,
+  CtrlTab.ViewManager, CtrlTab.SourceEditorNotifier, CtrlTab.IdeNotifier, DesignIntf,
+  CtrlTab.DesignNotification, Vcl.Forms, windows, messages, CtrlTab.FrmOpenDocs, System.IOUtils, CtrlTab.FileLogger, CtrlTab.SettingsManager,
   CtrlTab.EditorServicesNotifier;
 
 type

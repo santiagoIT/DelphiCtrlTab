@@ -1,14 +1,14 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : Main
+ Name    : CtrlTab.Main
 
  Info    : This Unit contains the Register function. It is the entry point for
            this plugin.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit Main;
+unit CtrlTab.Main;
 
 interface
 
@@ -17,7 +17,7 @@ procedure Register;
 implementation
 
 uses
-  IdePlugin, ToolsAPI;
+  CtrlTab.IdePlugin, ToolsAPI;
 
 {-------------------------------------------------------------------------------
  Name   : Register

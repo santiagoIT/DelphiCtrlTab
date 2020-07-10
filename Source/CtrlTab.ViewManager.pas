@@ -1,18 +1,18 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : ViewManager
+ Name    : CtrlTab.ViewManager
 
  Info    : This Unit contains the class TViewManager.
 
  Copyright (c) 2020 - Santiago Burbano
 ===============================================================================}
-unit ViewManager;
+unit CtrlTab.ViewManager;
 
 interface
 
 uses
-  IdePluginInterfaces, System.Classes, ToolsApi;
+  CtrlTab.Interfaces, System.Classes, ToolsApi;
 
 type
   TViewManager = class(TInterfacedObject, IViewManager)

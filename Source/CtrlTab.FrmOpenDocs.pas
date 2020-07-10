@@ -1,13 +1,13 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : FrmOpenDocs
+ Name    : CtrlTab.FrmOpenDocs
 
  Info    : This Unit contains the class TFormOpenDocs.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit FrmOpenDocs;
+unit CtrlTab.FrmOpenDocs;
 
 interface
 
@@ -48,7 +48,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IdePlugin, ToolsApi, ViewManager, CtrlTab.Consts;
+  CtrlTab.IdePlugin, ToolsApi, CtrlTab.ViewManager, CtrlTab.Consts;
 
 {-------------------------------------------------------------------------------
  Name   : FormClose

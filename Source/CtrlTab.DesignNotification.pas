@@ -1,19 +1,19 @@
 {===============================================================================
  Project : DelphiCtrlTab_D27
 
- Name    : DesignNotification
+ Name    : CtrlTab.DesignNotification
 
  Info    : This Unit contains the class TDesignNotification.
            This class is notified of various designer events.
 
  Copyright (c) 2020 Santiago Burbano
 ===============================================================================}
-unit DesignNotification;
+unit CtrlTab.DesignNotification;
 
 interface
 
 uses
-  Classes, SysUtils, ToolsAPI, IdePluginInterfaces, DesignIntf;
+  Classes, SysUtils, ToolsAPI, CtrlTab.Interfaces, DesignIntf;
 
 type
   TDesignNotification = class(TInterfacedObject, IDesignNotification)
@@ -28,7 +28,7 @@ type
 implementation
 
 uses
-  IdePlugin;
+  CtrlTab.IdePlugin;
 
 {-------------------------------------------------------------------------------
  Name   : DesignerClosed

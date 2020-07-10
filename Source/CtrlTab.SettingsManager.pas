@@ -1,19 +1,19 @@
 {===============================================================================
  Project : DelphiCtrlTab
 
- Name    : SettingsManager
+ Name    : CtrlTab.SettingsManager
 
  Info    : This Unit contains the class TSettingsManager. Handles storage of
            plugin settings.
 
  Copyright (c) 2020 - Santiago Burbano
 ===============================================================================}
-unit SettingsManager;
+unit CtrlTab.SettingsManager;
 
 interface
 
 uses
-  IdePluginInterfaces, System.Classes, ToolsApi;
+  CtrlTab.Interfaces, System.Classes, ToolsApi;
 
 type
   TSettingsManager = class(TInterfacedObject, ISettingsManager)
@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  System.SysUtils, PluginSettings, System.Win.Registry, WinApi.Windows, IdePlugin;
+  System.SysUtils, CtrlTab.Settings, System.Win.Registry, WinApi.Windows, CtrlTab.IdePlugin;
 
 const
   c_CtrlTabRegistryKey = 'Software\CtrlTab';

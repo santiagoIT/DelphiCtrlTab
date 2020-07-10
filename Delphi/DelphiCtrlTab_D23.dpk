@@ -22,19 +22,19 @@ requires
   designide;
 
 contains
-  Main in '..\Source\Main.pas',
-  FrmOpenDocs in '..\Source\FrmOpenDocs.pas' {FormOpenDocs},
-  ViewManager in '..\Source\ViewManager.pas',
-  SourceEditorNotifier in '..\Source\SourceEditorNotifier.pas',
-  FormEditorNotifier in '..\Source\FormEditorNotifier.pas',
-  IdeNotifier in '..\Source\IdeNotifier.pas',
-  IdePlugin in '..\Source\IdePlugin.pas',
-  IdePluginInterfaces in '..\Source\IdePluginInterfaces.pas',
-  DesignNotification in '..\Source\DesignNotification.pas',
-  FileLogger in '..\Source\FileLogger.pas',
-  EditorNotifierBase in '..\Source\EditorNotifierBase.pas',
-  SettingsManager in '..\Source\SettingsManager.pas',
-  PluginSettings in '..\Source\PluginSettings.pas',
+  CtrlTab.Main in '..\Source\CtrlTab.Main.pas',
+  CtrlTab.FrmOpenDocs in '..\Source\CtrlTab.FrmOpenDocs.pas' {FormOpenDocs},
+  CtrlTab.ViewManager in '..\Source\CtrlTab.ViewManager.pas',
+  CtrlTab.SourceEditorNotifier in '..\Source\CtrlTab.SourceEditorNotifier.pas',
+  CtrlTab.FormEditorNotifier in '..\Source\CtrlTab.FormEditorNotifier.pas',
+  CtrlTab.IdeNotifier in '..\Source\CtrlTab.IdeNotifier.pas',
+  CtrlTab.IdePlugin in '..\Source\CtrlTab.IdePlugin.pas',
+  CtrlTab.Interfaces in '..\Source\CtrlTab.Interfaces.pas',
+  CtrlTab.DesignNotification in '..\Source\CtrlTab.DesignNotification.pas',
+  CtrlTab.FileLogger in '..\Source\CtrlTab.FileLogger.pas',
+  CtrlTab.EditorNotifierBase in '..\Source\CtrlTab.EditorNotifierBase.pas',
+  CtrlTab.SettingsManager in '..\Source\CtrlTab.SettingsManager.pas',
+  CtrlTab.Settings in '..\Source\CtrlTab.Settings.pas',
   CtrlTab.Consts in '..\Source\CtrlTab.Consts.pas',
   CtrlTab.EditorServicesNotifier in '..\Source\CtrlTab.EditorServicesNotifier.pas';
 
