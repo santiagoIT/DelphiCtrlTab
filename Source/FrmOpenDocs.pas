@@ -175,7 +175,6 @@ begin
         Index := 0;
     end;
     ListViewOpenFiles.ItemIndex := Index;
-   // RefreshLabels;
   end
 
   else if Key = VK_ESCAPE then
@@ -252,6 +251,10 @@ begin
     Label_FullPath.Caption := '--';
     Label_SelectedFile.Caption := '--';
   end;
+
+  // make sure selected item is always visible
+  if Assigned(ListViewOpenFiles.Selected) then
+    ListViewOpenFiles.Selected.MakeVisible(False);
 end;
 
 end.
