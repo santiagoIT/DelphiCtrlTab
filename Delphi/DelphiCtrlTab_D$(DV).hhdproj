@@ -17,6 +17,8 @@
     <Item Include="..\Source\EditorNotifierBase.pas"/>
     <Item Include="..\Source\SettingsManager.pas"/>
     <Item Include="..\Source\PluginSettings.pas"/>
+    <Item Include="..\Source\CtrlTab.Consts.pas"/>
+    <Item Include="..\Source\CtrlTab.EditorServicesNotifier.pas"/>
   </Contains>
   <BuildConfigurations>
     <BuildConfiguration Name="Base">     

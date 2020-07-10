@@ -25,6 +25,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    function GetDisplayNameFor(const aModuleFileName: string): string;
     procedure ListViewOpenFilesChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure ListViewOpenFilesDblClick(Sender: TObject);
   private
@@ -47,7 +48,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IdePlugin, ToolsApi, ViewManager;
+  IdePlugin, ToolsApi, ViewManager, CtrlTab.Consts;
 
 {-------------------------------------------------------------------------------
  Name   : FormClose
@@ -101,6 +102,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TFormOpenDocs.FormCreate(Sender: TObject);
 var
+  FileDisplayName: string;
   i: Integer;
 begin
   FIsShowing := True;
@@ -114,12 +116,12 @@ begin
 
   for i := 0 to Plugin.ViewManager.ViewCount -1 do
   begin
-    ListViewOpenFiles.AddItem(ExtractFileName(Plugin.ViewManager.GetViewAt(i)), nil);
+    FileDisplayName := GetDisplayNameFor(Plugin.ViewManager.GetViewAt(i));
+    ListViewOpenFiles.AddItem(ExtractFileName(FileDisplayName), nil);
   end;
   if ListViewOpenFiles.Items.Count > 0 then
   begin
     ListViewOpenFiles.ItemIndex := 0;
-    //  RefreshLabels;
   end;
 end;
 
@@ -185,6 +187,21 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+ Name   : GetDisplayNameFor
+ Info   : Returns proper display name for BDS special pages such as the welcome page.
+ Input  : aFileName = Module File Name
+ Output :
+ Result : string
+-------------------------------------------------------------------------------}
+function TFormOpenDocs.GetDisplayNameFor(const aModuleFileName: string): string;
+begin
+  if aModuleFileName = c_WelcomePage then
+    Result := c_WelcomePageDisplayName
+  else
+    Result := aModuleFileName;
+end;
+
+{-------------------------------------------------------------------------------
  Name   : ListViewOpenFilesChange
  Info   :
  Input  : Sender =
@@ -226,7 +243,7 @@ var
 begin
   if ListViewOpenFiles.ItemIndex >= 0 then
   begin
-    FileName := Plugin.ViewManager.GetViewAt(ListViewOpenFiles.ItemIndex);
+    FileName := GetDisplayNameFor(Plugin.ViewManager.GetViewAt(ListViewOpenFiles.ItemIndex));
     Label_FullPath.Caption := FileName;
     Label_SelectedFile.Caption := ExtractFileName(FileName);
   end

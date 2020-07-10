@@ -34,6 +34,8 @@ contains
   FileLogger in '..\Source\FileLogger.pas',
   EditorNotifierBase in '..\Source\EditorNotifierBase.pas',
   SettingsManager in '..\Source\SettingsManager.pas',
-  PluginSettings in '..\Source\PluginSettings.pas';
+  PluginSettings in '..\Source\PluginSettings.pas',
+  CtrlTab.Consts in '..\Source\CtrlTab.Consts.pas',
+  CtrlTab.EditorServicesNotifier in '..\Source\CtrlTab.EditorServicesNotifier.pas';
 
 end.

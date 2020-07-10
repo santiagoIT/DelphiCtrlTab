@@ -135,6 +135,8 @@
 		<DCCReference Include="..\Source\EditorNotifierBase.pas" />
 		<DCCReference Include="..\Source\SettingsManager.pas" />
 		<DCCReference Include="..\Source\PluginSettings.pas" />
+		<DCCReference Include="..\Source\CtrlTab.Consts.pas" />
+		<DCCReference Include="..\Source\CtrlTab.EditorServicesNotifier.pas" />
 		<BuildConfiguration Include="Base">
 			<Key>Base</Key>
 		</BuildConfiguration>

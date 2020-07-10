@@ -64,8 +64,10 @@ var
   ModuleEditor: IOTAEditor;
   ModuleServices: IOTAModuleServices;
   OpenModule: IOTAModule;
+  SpecialModule: IOTAModule;
 begin
   FileToShow := FUnits[aIndex];
+  SpecialModule := nil;
 
   // find open module and show it
   ModuleServices := BorlandIDEServices as IOTAModuleServices;
@@ -80,10 +82,20 @@ begin
       if ModuleEditor.FileName = FileToShow then
       begin
         ModuleEditor.Show;
-        break;
+        Exit;
       end;
     end;
+
+    // Could be a special module (Welcome Page)
+    if OpenModule.FileName = FileToShow then
+    begin
+      SpecialModule := OpenModule;
+    end;
   end;
+
+  // Could be a special module (Welcome Page)
+  if Assigned(SpecialModule) then
+    SpecialModule.Show;
 end;
 
 procedure TViewManager.ShutDown;

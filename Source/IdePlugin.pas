@@ -24,7 +24,8 @@ implementation
 uses
   System.Generics.Defaults, Classes, SysUtils, ToolsAPI, FormEditorNotifier,
   ViewManager, SourceEditorNotifier, IdeNotifier, DesignIntf,
-  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger, SettingsManager;
+  DesignNotification, Vcl.Forms, windows, messages, FrmOpenDocs, System.IOUtils, FileLogger, SettingsManager,
+  CtrlTab.EditorServicesNotifier;
 
 type
   TIdePlugin = class(TSingletonImplementation, IIdePlugin)
@@ -44,6 +45,7 @@ type
     procedure ShutDown;
   private
     FDesignNotification: IDesignNotification;
+    FEditorNotifierId: Integer;
     FEditorNotifiers: IInterfaceList;
     FIDENotifierIndex: Integer;
     FLogger: ILogger;
@@ -129,6 +131,10 @@ begin
     OpenModule := ModuleServices.Modules[i];
     InstallSourceEditorNotifiers(OpenModule);
   end;
+
+  // install editor services notifier. This is the only way to know when special windows have
+  // been activated
+  FEditorNotifierId := (BorlandIDEServices As IOTAEditorServices).AddNotifier(TCtrlTabEditorServicesNotifier.Create);
 
   RegisterDesignNotification(FDesignNotification);
 
@@ -311,6 +317,17 @@ var
   SourceEditor: IOTASourceEditor;
 begin
   OtaServices := BorlandIDEServices as IOTAServices;
+
+  // if module has no module files, it is a special module such as the welcome page.
+  if Module.ModuleFileCount = 0 then
+  begin
+    // exclude .groupproj
+    // register open file
+    if not OtaServices.IsProjectGroup(Module.FileName) then
+      Plugin.ViewManager.ViewActivated(Module.FileName);
+    Exit;
+  end;
+
   // attach a notifier
   for i := 0 to Module.ModuleFileCount - 1 do
   begin
@@ -425,6 +442,10 @@ begin
   FViewManager.ShutDown;
   ClearSourceEditorNotifiers;
   RemoveIDENotifier;
+
+  // remove editor services notifier
+  if FEditorNotifierId > -1 then
+    (BorlandIDEServices As IOTAEditorServices).RemoveNotifier(FEditorNotifierId);
 
   UnRegisterDesignNotification(FDesignNotification);
 
