@@ -345,8 +345,10 @@ begin
     begin
       // add notifier
       FEditorNotifiers.Add(TFormEditorNotifier.Create(FormEditor) as IInterface);
-      // register open file
-      Plugin.ViewManager.ViewActivated(ModuleEditor.FileName);
+      // do not register file with view manager. File must be registered only when
+      // IEditorNotifier.ViewNotification = opInsert
+      // otherwise modules which have been implicetely opened in the background will be
+      // listed (visual form inheritance)
     end;
   end;
 end;

@@ -109,6 +109,7 @@ var
   Index: Integer;
 begin
   Index := FUnits.IndexOf(aFileName);
+  if Index = 0 then Exit;
   // remove if already in list
   if Index >= 0 then
     FUnits.Delete(Index);
