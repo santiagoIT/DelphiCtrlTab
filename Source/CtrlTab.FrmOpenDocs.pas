@@ -105,6 +105,8 @@ var
   FileDisplayName: string;
   i: Integer;
 begin
+  AlphaBlend := True;
+  AlphaBlendValue := 0;
   FIsShowing := True;
   FTabKeyUpCalled := False;
 
@@ -159,6 +161,7 @@ begin
   end
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
+    AlphaBlendValue := 255;
     FTabKeyUpCalled := True;
 
     // if shift is pressed move the opposite direction
