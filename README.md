@@ -7,7 +7,7 @@ In all other IDE's I am familiar with, hitting Ctrl+Tab will take you back to th
 Whenever Ctrl+Tab or Ctrl+Shift+Tab is pressed a dialog displaying all open files is displayed.
 Files are listed in the order in which they have been activated.
 
-To navigate betwwen files simply keep the Ctrl key pressed down and hit the tab key. Holding the shift key down naviagtes in the opposite direction.
+To navigate between files simply keep the Ctrl key pressed down and hit the tab key. Holding the shift key down naviagtes in the opposite direction.
 
 Refer to wiki on instructions how to install the plugin.
 
