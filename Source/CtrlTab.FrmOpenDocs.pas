@@ -48,7 +48,9 @@ implementation
 {$R *.dfm}
 
 uses
-  CtrlTab.IdePlugin, ToolsApi, CtrlTab.ViewManager, CtrlTab.Consts;
+  CtrlTab.IdePlugin, ToolsApi, CtrlTab.ViewManager, CtrlTab.Consts,
+  System.Generics.Collections;
+
 
 {-------------------------------------------------------------------------------
  Name   : FormClose
@@ -104,6 +106,14 @@ procedure TFormOpenDocs.FormCreate(Sender: TObject);
 var
   FileDisplayName: string;
   i: Integer;
+  EditorModified: Boolean;
+  FileNameOnly: string;
+  j: Integer;
+  ModifiedEditorMap: TDictionary<string, Integer>;
+  ModuleEditor: IOTAEditor;
+  ModuleServices: IOTAModuleServices;
+  OpenModule: IOTAModule;
+  View: string;
 begin
   FIsShowing := True;
   FTabKeyUpCalled := False;
@@ -114,16 +124,46 @@ begin
   if Plugin.Settings.DialogHeight > 0 then
     Height := Plugin.Settings.DialogHeight;
 
-  for i := 0 to Plugin.ViewManager.ViewCount -1 do
-  begin
-    FileDisplayName := GetDisplayNameFor(Plugin.ViewManager.GetViewAt(i));
-    ListViewOpenFiles.AddItem(ExtractFileName(FileDisplayName), nil);
-  end;
-  if ListViewOpenFiles.Items.Count > 0 then
-  begin
-    ListViewOpenFiles.ItemIndex := 0;
+
+  ModifiedEditorMap := TDictionary<string, Integer>.Create;
+  try
+    // list of all modified modules
+    ModuleServices := BorlandIDEServices as IOTAModuleServices;
+    for i := 0 to ModuleServices.ModuleCount - 1 do
+    begin
+      OpenModule := ModuleServices.Modules[i];
+      for j := 0 to OpenModule.ModuleFileCount - 1 do
+      begin
+        ModuleEditor := OpenModule.ModuleFileEditors[j];
+        if ModuleEditor.Modified then
+          ModifiedEditorMap.AddOrSetValue(ModuleEditor.FileName, 1);
+      end;
+    end;
+
+    // add files to ListView
+    for i := 0 to Plugin.ViewManager.ViewCount -1 do
+    begin
+      View := Plugin.ViewManager.GetViewAt(i);
+      EditorModified := ModifiedEditorMap.ContainsKey(View);
+      FileDisplayName := GetDisplayNameFor(Plugin.ViewManager.GetViewAt(i));
+      FileNameOnly := ExtractFileName(FileDisplayName);
+
+      // append an asterisk to file name if file is marked as modified.
+      if EditorModified then
+        FileNameOnly := FileNameOnly + ' *';
+
+      ListViewOpenFiles.AddItem(FileNameOnly, nil);
+    end;
+
+    if ListViewOpenFiles.Items.Count > 0 then
+      ListViewOpenFiles.ItemIndex := 0;
+
+  finally
+    FreeAndNil(ModifiedEditorMap);
   end;
 end;
+
+
 
 {-------------------------------------------------------------------------------
  Name   : FormDeactivate
