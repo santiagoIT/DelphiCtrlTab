@@ -161,7 +161,7 @@ begin
   end
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
-    AlphaBlendValue := 255;
+    AlphaBlend := False;
     FTabKeyUpCalled := True;
 
     // if shift is pressed move the opposite direction
