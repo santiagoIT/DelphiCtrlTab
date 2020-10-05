@@ -115,6 +115,8 @@ var
   OpenModule: IOTAModule;
   View: string;
 begin
+  AlphaBlend := True;
+  AlphaBlendValue := 0;
   FIsShowing := True;
   FTabKeyUpCalled := False;
 
@@ -199,6 +201,7 @@ begin
   end
   else if (Key = VK_TAB) or (Key = VK_SPACE) then
   begin
+    AlphaBlend := False;
     FTabKeyUpCalled := True;
 
     // if shift is pressed move the opposite direction
